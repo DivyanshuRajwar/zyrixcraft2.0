@@ -21,12 +21,13 @@ const ClientHome = () => {
     error: null
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
+   
   };
 
   const validateForm = () => {
@@ -51,20 +52,33 @@ const ClientHome = () => {
     setState(prev => ({ ...prev, submitting: true }));
     
     try {
-      
-      console.log('Form data:', formData);
-      toast.success('Message sent successfully!');
-      setFormData({
-        name: '',
-        email: '',
-        mobile: '',
-        message: ''
-      });
-      navigate("/thanks");
-    } catch (error) {
-      toast.error('Failed to send message');
-      console.error('Error:', error);
-    } finally {
+  const response = await fetch("http://localhost:5000/form", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+
+  const result = await response.json();
+
+  if (response.ok) {
+    toast.success('Message sent successfully!');
+    setFormData({
+      name: '',
+      email: '',
+      mobile: '',
+      message: ''
+    });
+    navigate("/thanks");
+  } else {
+    toast.error(result.message || 'Failed to send message');
+  }
+} catch (error) {
+  toast.error('Failed to send message');
+  console.error('Error:', error);
+}
+finally {
       setState(prev => ({ ...prev, submitting: false }));
     }
   };
