@@ -32,7 +32,7 @@ function HeroSectionLeftText() {
       <div className="-rotate-90 text-white/70">
         <span className="hover:text-amber-500 mr-10">DEVELOPMENT</span>
         <span className="hover:text-amber-500 mr-10">GRAPHIC DESIGNING</span>
-        <span className="hover:text-amber-500 mr-10">WEB DEVELOPMENT</span>
+        <span className="hover:text-amber-500 mr-10 uppercase">UI/UX Designing</span>
       </div>
     </div>
   );
